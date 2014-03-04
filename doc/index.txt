@@ -1,22 +1,15 @@
-.. SeleSame documentation master file, created by
-   sphinx-quickstart on Tue Mar  4 22:14:14 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to SeleSame's documentation!
-====================================
+================================================
+
+TODO
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+	:maxdepth: 2
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+	_static/overview
+	_static/installation
+	_static/usage
+	_static/api
+	_static/todo

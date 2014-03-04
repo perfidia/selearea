@@ -1,3 +1,5 @@
 API
 ===
 
+.. automodule:: selearea
+   :members:
