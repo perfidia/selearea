@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import selearea
+from selearea import get_ast
 
-if __name__ == '__main__':
-    pass
+get_ast("", "")
