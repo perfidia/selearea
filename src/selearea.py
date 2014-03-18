@@ -1,32 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
-from lxml import *
-import urllib2
-import hashlib
+from DOMStructure import create_dom_structure
 
 
-
-def get_md5(text = None):
-	
-	print hashlib.md5(text).hexdigest()
-
-
-#TODO: find a way to get a xpath for single element and generate nodes
 def get_ast(url = None, driver = None):
+
+	xpath_html= "child::*"
+	driver.get(url);
+	html = driver.find_elements_by_xpath(xpath_html)
 	
-# 	location = webelement.location
-# 	size = webelement.size
-# 	pageSource = urllib2.urlopen(url)
-# 	pageSoupSource = BeautifulSoup(pageSource.read())
-# 	print pageSoupSource
-	pageSource = driver.get(url);
-	pageSoupSource = BeautifulSoup(pageSource)
-	createDOMStructure(pageSoupSource)
+	return create_dom_structure(html[0], url)
 
 
-def get_workarea(urls = None, webelements = None):
+
+def get_workarea(trees):
 	"""
 	Analyze a given webpage and return xpath to a work area.
 
