@@ -126,8 +126,8 @@ class DOMElement(object):
     def add_child(self, child):
         child.set_parent(self)
         self._children.append(child)
-    
-    
+     
+     
     def get_child(self, i):
         if i >= 0 and i < len(self._children):
             return self._children[i]

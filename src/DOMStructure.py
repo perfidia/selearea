@@ -48,15 +48,15 @@ def process_node(html, parent):
     x = html.location['x']
     y = html.location['y']
     md5 = hashlib.md5(html.text).hexdigest()
+    xpath = ""
     
     if parent != None:
-        xpath = parent.get_xpath() + "\\" + str(html.tag_name)
-    else:
-        xpath = "\\" + str(html.tag_name)
+        xpath = parent.get_xpath()
+        
+    xpath = xpath + "\\"+ str(html.tag_name) + "[@id='" + str(html.get_attribute("id"))  + "'][@class='" + str(html.get_attribute("class")) + "']"
     
     node = DOMElement(width, height, md5, x, y, xpath, parent, list())
-    xPathToGetChildren = "child::*"
-    children = html.find_elements_by_xpath(xPathToGetChildren)
+    children = html.find_elements_by_xpath("child::*")
 
     for child in children:
         node.add_child(process_node(child, node))
@@ -74,62 +74,29 @@ def create_dom_structure(html, webpage_name):
     return dom_structure
 
 
-def get_leafs(root):
+def are_different(node1, node2):
     
-    out = list()
-    
-    for child in root.get_children():
-        if child.is_leaf():
-            out.append(child)
-        else:
-            out = list(set(out + get_leafs(child)))
-            
-    return out
-
-
-# def compare_trees(tree1, tree2):
-# 
-#     children_tree1 = tree1.get_children()
-#     children_tree2 = tree2.get_children()
-#     out_tree1 = dict()
-#     out_tree2 = dict()
-#     
-#     for child_tree1 in children_tree1:
-#         for child_tree2 in children_tree2:
-#             if child_tree1.get_md_5() != child_tree2.get_md_5():
-#                 out_tree1.update({tree1.get_webpage_name() : child_tree1.get_xpath()})
-#                 out_tree2.update({tree2.get_webpage_name() : child_tree2.get_xpath()})
-
-def are_nodes_equals(node1, node2):
-    pass
-
-
-def compare_nodes(node1, node2):
-    
-    same_counter = 0
-    
+    different_children = True
     for child1 in node1.get_children():
         for child2 in node2.get_children():
-            if are_nodes_equals(child1, child2):
-                same_counter =+ 1
-                
-    if same_counter == 0:
-        return None
-    else:
-        return node1.get_parent().get_xpath()
-    
-    
-def compare_trees(tree1, tree2):
-    
-    children_counter = len(tree1.get_children())
-    
-    for i in range(0, children_counter):
-        if not are_nodes_equals(tree1.get_child(i), tree2.get_child(i)):
-            comparison = compare_nodes(tree1.get_child(i), tree2.get_child(i))
-            if comparison != None:
-                pass
+            if child1.get_md_5() == child2.get_md_5():
+                different_children = False
 
+    return different_children
 
-
+    
+def do_analysis(node1, node2):
+     
+    result = list()
+     
+    for child1 in node1.get_children():
+        for child2 in node2.get_children():
+            if child1.get_xpath() == child2.get_xpath() and child1.get_md_5() != child2.get_md_5():
+                if are_different(child1, child2):
+                    result.append(child1.get_xpath())
+                else:
+                    result = result + do_analysis(child1, child2)
+            
+    return result
 
 
