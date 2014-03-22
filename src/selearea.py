@@ -71,6 +71,16 @@ def get_ast(url=None, driver=None):
                
         return node
     
+    def check_url(url):
+        if not isinstance(url, basestring):
+            raise ValueError("It's not a url.")
+
+        if url[:7] != "http://" and url[:8] != "https://":
+            raise ValueError("http or https protocol is required")
+
+        return url
+    
+    url = check_url(url)
     driver = webdriver.Firefox()
     driver.get(url)
     html = driver.find_elements_by_xpath("child::*")
