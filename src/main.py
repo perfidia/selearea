@@ -3,8 +3,6 @@
 
 from selearea import get_ast
 from selearea import get_workarea
-from selearea import print_ast
-from selenium import webdriver
 
 
 if __name__ == "__main__":
@@ -15,11 +13,9 @@ if __name__ == "__main__":
     ast_list = list()
 
     for page in webpages:
-        ast = get_ast(page, webdriver.Firefox())
-#         print_ast(ast)
+        ast = get_ast(page)
+#         ast.print_all()
         ast_list.append( ast )
-        
-    workarea_list = list(set(get_workarea(ast_list)))
     
-    for workarea in workarea_list:
+    for workarea in get_workarea(ast_list):
         print workarea
