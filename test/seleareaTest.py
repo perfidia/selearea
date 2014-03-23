@@ -1,7 +1,9 @@
+#-*- coding: utf-8 -*-
 '''
-Created on 19 mar 2014
+Created on 23 mar 2014
 
 @author: mariusz
+@author: tomasz
 '''
 import unittest
 import sys
@@ -37,10 +39,32 @@ class seleareaTest(unittest.TestCase):
             ast = get_ast(page)
             self.ast_list.append( ast )
 
+    def get_same_pages(self):
+    
+        webpages = {"http://www.bis.put.poznan.pl/", 
+                "http://www.bis.put.poznan.pl/"}
+        
+        self.ast_list = list()
+    
+        for page in webpages:
+            ast = get_ast(page)
+            self.ast_list.append( ast )
 
     def tearDown(self):
         pass
     
+    
+    def test_get_null_page(self):
+        webpage = "putpoznan.pl"
+        with self.assertRaises(ValueError):
+            get_ast(webpage)
+        
+    
+    def test_get_workarea_identical_pages(self):
+        self.get_same_pages()
+        workarea_list = get_workarea(self.ast_list)
+        self.assertEqual(0, len(workarea_list), "AssertionFailed: workarea found on identical pages.")
+        
     
     def test_get_ast_fc_count(self):
          

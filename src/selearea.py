@@ -53,7 +53,7 @@ def get_ast(url=None):
     def process_node(html, parent):
         """
         Processing single node.
-        :param html: webeleemnt from selenium to process
+        :param html: webelement from selenium to process
         :param parent: parent of given webelement
         :return: node in a tree
         """
@@ -61,7 +61,7 @@ def get_ast(url=None):
         height = html.size['height']
         x = html.location['x']
         y = html.location['y']
-        md5 = hashlib.md5(html.text).hexdigest()
+        md5 = hashlib.md5(html.text.encode('utf-8')).hexdigest()
         xpath = ""
            
         if parent != None:
