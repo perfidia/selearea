@@ -36,20 +36,26 @@ class DOMElement(object):
     def print_all(self, level=1):
         """
         Printing content of node.
+        :param level: degree of the current subtree
         """
         print ("\t"*level) + self.xpath
         for child in self.children:
             child.print_all(level + 1)
            
            
-def get_ast(url=None, driver=None):
+def get_ast(url=None):
     """
     Return an ast of webpage.
+    :param url: url of webpage
+    :return: tree of the webpage
     """
     
     def process_node(html, parent):
         """
         Processing single node.
+        :param html: webeleemnt from selenium to process
+        :param parent: parent of given webelement
+        :return: node in a tree
         """
         width = html.size['width']
         height = html.size['height']
@@ -72,6 +78,11 @@ def get_ast(url=None, driver=None):
         return node
     
     def check_url(url):
+        """
+        Check if the url is ok.
+        :param url: url of webpage
+        :return: true or false
+        """
         if not isinstance(url, basestring):
             raise ValueError("It's not a url.")
 
@@ -94,11 +105,16 @@ def get_ast(url=None, driver=None):
 def get_workarea(ast_list):
     """
     Analyze a given webpage and return xpath to a work area.
+    :param ast_list: list of trees
+    :return: xpaths for elements which are different on the webpages 
 	"""
     
     def are_different(node1, node2):
         """
-        Check if nodes are different.
+        Check if nodes are different (check md5 sum and children of nodes).
+        :param node1: first node to check if nodes are different
+        :param node1: second node to check if nodes are different
+        :return: true or false
         """
         different_children = True
         for child1 in node1.children:
@@ -112,6 +128,9 @@ def get_workarea(ast_list):
     def do_analysis(node1, node2):
         """
         Analysis of pairs of nodes.
+        :param node1: first node for analysis
+        :param node2: second node for analysis
+        :return list of xpaths
         """
         result = list()
          
