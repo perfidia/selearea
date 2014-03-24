@@ -5,8 +5,8 @@ The following libraries are required:
 
     * python 2.7
     * python-setuptools
-    * selenium (tested with: ?)
+    * selenium (tested with: 2.40.0-py2.7)
 
         .. code-block:: bash
-
+        
             easy_install selenium

@@ -1,4 +1,10 @@
 Overview
 ========
 
-TODO
+The aim of SeleArea is to provide information about the elements that are different on similar websites. Provided web pages are analysed, and SeleArea returns all the elements that are different. Area that is different in pages is called a work area.
+
+It is possible to gather multiple information about the work area, such as:
+    * Width
+    * Height
+    * X and Y coordinates
+    * XPath to the element
