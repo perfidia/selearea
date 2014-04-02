@@ -54,11 +54,14 @@ class seleareaTest(unittest.TestCase):
         pass
     
     
-    def test_get_null_page(self):
+    def test_get_wrong_page(self):
         webpage = "putpoznan.pl"
         with self.assertRaises(ValueError):
             get_ast(webpage)
         
+    def test_get_none_page(self):
+        with self.assertRaises(ValueError):
+            get_ast(None)
     
     def test_get_workarea_identical_pages(self):
         self.get_same_pages()
@@ -76,8 +79,8 @@ class seleareaTest(unittest.TestCase):
         
         self.get_fc_pages()        
         workarea_list = get_workarea(self.ast_list)
-        xpath = str("\\html[@id=''][@class='js']\\body[@id=''][@class='']\\div[@id='right'][@class='']\\div[@id='content'][@class='']")
-        self.assertEqual(xpath, workarea_list[1], "AssertionFailed: xpaths for fc pages.")
+        xpath = str("//html[@class='js']/body/div[@id='right']/div[@id='content']")
+        self.assertEqual(xpath, workarea_list[0], "AssertionFailed: xpaths for fc pages.")
         
     def test_get_ast_fce_count(self):
          
@@ -89,8 +92,8 @@ class seleareaTest(unittest.TestCase):
         
         self.get_fce_pages()        
         workarea_list = get_workarea(self.ast_list)
-        xpath = str("\\html[@id=''][@class='']\\body[@id=''][@class='']\\div[@id='main'][@class='']\\div[@id=''][@class='']\\div[@id='left_menu'][@class='']\\div[@id='left_menu_box'][@class='']")
-        self.assertEqual(xpath, workarea_list[0], "AssertionFailed: xpaths for fc pages.")
+        xpath = str("//html/body/div[@id='main']/div/div[@id='left_menu']/div[@id='left_menu_box']")
+        self.assertEqual(xpath, workarea_list[1], "AssertionFailed: xpaths for fc pages.")
             
 
 if __name__ == "__main__":

@@ -17,8 +17,8 @@ class DOMElement(object):
     parent = None
     children = None
        
-    def __init__(self, width=None, height=None,
-                    md5=None, x=None, y=None, xpath=None, parent=None, children=None):
+    def __init__(self, width = None, height = None,
+                    md5 = None, x = None, y = None, xpath = None, parent = None, children = None):
         self.width = width
         self.height = height
         self.md5 = md5
@@ -43,9 +43,10 @@ class DOMElement(object):
             child.print_all(level + 1)
            
            
-def get_ast(url=None, driver=None):
+def get_ast(url = None, driver = None):
     """
     This function return an ast of webpage. It is a tree that allows comparison of multiple websites.
+    If a driver is provided, it will not be closed, otherwise, an webdriver.Firefox() will be used.
     
     :param url: url of webpage
     :param driver: selenium driver
@@ -69,7 +70,18 @@ def get_ast(url=None, driver=None):
         if parent != None:
             xpath = parent.xpath
                
-        xpath = xpath + "\\" + str(html.tag_name) + "[@id='" + str(html.get_attribute("id")) + "'][@class='" + str(html.get_attribute("class")) + "']"
+        if xpath == "":
+            xpath += "//"
+        else:
+            xpath += "/"
+        
+        xpath += str(html.tag_name)
+        attribute = str(html.get_attribute("id"))
+        if attribute != "":
+            xpath = xpath + "[@id='" + attribute + "']"
+        attribute = str(html.get_attribute("class"))
+        if attribute != "":
+            xpath = xpath + "[@class='" + attribute + "']"
            
         node = DOMElement(width, height, md5, x, y, xpath, parent, list())
         children = html.find_elements_by_xpath("child::*")
@@ -85,23 +97,31 @@ def get_ast(url=None, driver=None):
         :param url: url of webpage
         :return: true or false
         """
+        if url == None:
+            raise ValueError("None is not an allowed value")
+        
         if not isinstance(url, basestring):
             raise ValueError("It's not a url.")
 
-        if (url.startswith("http://")==False) and (url.startswith("https://")==False):
-            raise ValueError("http or https protocol is required")
+        if url.startswith("http://") == False and url.startswith("https://") == False and url.endswith(".html") == False:
+            raise ValueError("html files, http or https protocol is required")
 
         return url
     
     url = check_url(url)
     
-    if(driver==None):
+    closedriver = False
+    
+    if driver == None:
         driver = webdriver.Firefox()
+        closedriver = True
         
     driver.get(url)
     html = driver.find_elements_by_xpath("child::*")
     dom = process_node(html[0], None)
-    driver.close()
+    
+    if closedriver == True:
+        driver.close()
     
     return dom
  
@@ -146,7 +166,7 @@ def get_workarea(ast_list):
                     if are_different(child1, child2):
                         result.append(child1.xpath)
                     else:
-                        result = result + do_analysis(child1, child2)
+                        result += do_analysis(child1, child2)
                 
         return result
     

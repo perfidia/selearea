@@ -12,9 +12,13 @@ if __name__ == "__main__":
         
     ast_list = list()
 
+    driver = webdriver.Firefox()
+
     for page in webpages:
-        ast = get_ast(page, webdriver.Firefox())
+        ast = get_ast(page, driver)
         ast_list.append( ast )
     
     for workarea in get_workarea(ast_list):
         print workarea
+        
+    driver.close()
