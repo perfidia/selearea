@@ -6,7 +6,7 @@ from selenium import webdriver
 
 class DOMElement(object):
     '''
-    Representation of a single node.
+    Representation of a single node. It is used to store information gathered from a webpage like width, height, x, y, XPath.
     '''
     def __init__(self, width = None, height = None, md5 = None, x = None,
                 y = None, xpath = None, parent = None, children = None):
@@ -39,16 +39,22 @@ def get_ast(url = None, driver = None):
     If a driver is provided, it will not be closed, otherwise, an webdriver.Firefox() will be used.
 
     :param url: url of webpage
+    :type url: str
     :param driver: selenium driver
+    :type driver: webdriver
     :return: tree of the webpage
+    :rtype: DOMElement
     """
 
     def process_node(html, parent):
         """
         Processing single node.
         :param html: webelement from selenium to process
+        :type html: webelement
         :param parent: parent of given webelement
+        :type parent: webelement
         :return: node in a tree
+        :rtype: DOMElement
         """
         width = html.size['width']
         height = html.size['height']
@@ -56,7 +62,7 @@ def get_ast(url = None, driver = None):
         y = html.location['y']
         md5 = hashlib.md5(html.text.encode('utf-8')).hexdigest()
 
-        xpath  = parent.xpath + "/" if parent != None else "//"
+        xpath = parent.xpath + "/" if parent != None else "//"
         xpath += str(html.tag_name)
 
         attribute = str(html.get_attribute("id"))
@@ -114,10 +120,12 @@ def get_ast(url = None, driver = None):
 
 def get_workareas(ast_list):
     """
-    Analyze a given webpage and return xpath to a work area.
+    Analyze a given tree list and return a list of XPaths to all found work areas.
+    Work areas are the XPaths that contain different data inside on multiple provided pages.
 
-    :param ast_list: list of trees
-    :return: xpaths for elements which are different on the webpages
+    :param ast_list: list of trees that are compared
+    :type ast_list: DOMElement
+    :return: list of XPaths for elements which are different on provided webpage list representation
     """
 
     def are_different(node1, node2):
@@ -157,6 +165,6 @@ def get_workareas(ast_list):
     result = list()
     for i, ast1 in enumerate(ast_list):
         for j, ast2 in enumerate(ast_list, start = i + 1):
-            result = result + do_analysis(ast1, ast2)
+            result += do_analysis(ast1, ast2)
 
     return list(set(result))

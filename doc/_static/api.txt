@@ -1,5 +1,25 @@
 API
 ===
 
-.. automodule:: selearea
-   :members:
+SeleArea contains the following functions:
+
+.. function:: get_ast(url = None, driver = None)
+
+	This function return an ast of webpage. It is a tree that allows comparison of multiple websites.
+    If a driver is provided, it will not be closed, otherwise, an webdriver.Firefox() will be used.
+
+    :param url: url of webpage
+    :type url: str
+    :param driver: selenium driver
+    :type driver: webdriver
+    :return: tree of the webpage
+    :rtype: DOMElement
+
+.. function:: get_workareas(ast_list)
+
+    Analyze a given tree list and return a list of XPaths to all found work areas.
+    Work areas are the XPaths that contain different data inside on multiple provided pages.
+
+    :param ast_list: list of trees that are compared
+    :type ast_list: DOMElement
+    :return: list of XPaths for elements which are different on provided webpage list representation

@@ -1,0 +1,9 @@
+Tests
+============
+
+Tests are located in 2 files
+
+* seleareaTest.py
+* xpath.py
+
+Above unit tests can be run in an environment that can access the SeleArea source code and all the dependent libraries mentioned in installation manual.
