@@ -112,7 +112,7 @@ def get_ast(url = None, driver = None):
 
     return dom
 
-def get_workarea(ast_list):
+def get_workareas(ast_list):
     """
     Analyze a given webpage and return xpath to a work area.
 

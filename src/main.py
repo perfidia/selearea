@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from selenium import webdriver
-from selearea import get_ast, get_workarea
+from selearea import get_ast, get_workareas
 
 if __name__ == "__main__":
     urls = [
@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     asts = [get_ast(url, driver) for url in urls]
 
-    for workarea in get_workarea(asts):
+    for workarea in get_workareas(asts):
         print workarea
 
     driver.close()

@@ -59,7 +59,7 @@ class Test(unittest.TestCase):
         for url in urls:
             asts.append(selearea.get_ast(url, driver = self.driver))
 
-        xpaths = selearea.get_workarea(asts)
+        xpaths = selearea.get_workareas(asts)
 
         self.driver.get(urls[0])
 
